@@ -19,7 +19,7 @@ Terms:
 
 `Ki` was kept low because the systemic bias it is intended to eliminate should not exist in this test.  It is still needed to get rid of some steady-state error, including around long turns.
 
-Raising `Kd` to 10 from about 2 got the car to complete an entire lap at speed 20.  It does result in jittery performance around turns however.  Reasoning that the controller will need to make quicker turns at higher speeds, `Kd` was set at half the speed, and no lower than 10, when the speed target was raised to 40.
+Raising `Kd` to 10 from about 2 got the car to complete an entire lap at speed 20.  It does result in jittery performance around turns however.  Reasoning that the controller will need to make quicker turns at higher speeds, `Kd` was set at half the speed, and no lower than 10, when the speed target was raised to 40 (see main.cpp line 61).
 
 ### Throttle control
 Throttle was controlled to achieve a hard-coded speed target.  This was ultimately set at 40, though that speed was not reached.  Most testing was done with a speed target of 20, which the controller maintained super-consistently.
