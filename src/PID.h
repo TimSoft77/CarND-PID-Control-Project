@@ -6,9 +6,14 @@ public:
   /*
   * Errors
   */
-  double p_error;
   double i_error;
+  double i_error_threshold; // If abs(cte) > this, i_error set to 0
   double d_error;
+
+  /*
+  * To track if the errors have been initialized
+  */
+  bool is_init = false;
 
   /*
   * Coefficients
@@ -28,19 +33,15 @@ public:
   virtual ~PID();
 
   /*
-  * Initialize PID.
+  * Sets the coefficients for the controller
   */
-  void Init(double Kp, double Ki, double Kd);
+  void Init(double kp, double ki, double kd, double i_err_thresh);
 
   /*
-  * Update the PID error variables given cross track error.
+  * Calculates the new steering angle and updates the errors
   */
-  void UpdateError(double cte);
+  double CalculateControlOutput(double cte);
 
-  /*
-  * Calculate the total PID error.
-  */
-  double TotalError();
 };
 
 #endif /* PID_H */
