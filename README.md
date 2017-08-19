@@ -3,6 +3,39 @@ Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+## Reflection
+
+### PID controller design
+The controller design from the lesson was used, with added logic to avoid [integral windup](https://en.wikipedia.org/wiki/Integral_windup).  If the absolute value of the error was greater than a defined threshold (`i_error_threshold`), the integral error was set at zero, regardless of how much it had previously built up.
+
+This controller design was used for both steering and throttle.  All parameters were tuned manually.
+
+### Steering control
+Terms:
+* `Kp` = 1
+* `Ki` = 0.01
+* `Kd` = 10
+* `i_error_threshold` = 1, if the units are in meters, it should stop the integral component from throwing the car too far off course
+
+`Ki` was kept low because the systemic bias it is intended to eliminate should not exist in this test.  It is still needed to get rid of some steady-state error, including around long turns.
+
+Raising `Kd` to 10 from about 2 got the car to complete an entire lap at speed 20.  It does result in jittery performance around turns however.  Reasoning that the controller will need to make quicker turns at higher speeds, `Kd` was set at half the speed, and no lower than 10, when the speed target was raised to 40.
+
+### Throttle control
+Throttle was controlled to achieve a hard-coded speed target.  This was ultimately set at 40, though that speed was not reached.  Most testing was done with a speed target of 20, which the controller maintained super-consistently.
+
+Terms:
+* `Kp` = 0.03, which works out to a throttle of 0.12 at a dead stop with a speed target of 40
+* `Ki` = 0.001
+* `Kd` = 0.1
+* `i_error_threshold` = 5
+
+I suspect the integral avoidance windup logic was particularly important here due to how long it takes to get up to speed.
+
+Manually speeding the care up a lot, then releasing control back to automatic, showed that the controller was effective at breaking.
+
+---
+
 ## Dependencies
 
 * cmake >= 3.5
